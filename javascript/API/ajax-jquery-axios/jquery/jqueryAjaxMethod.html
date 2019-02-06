@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ajax method</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+</head>
+<body>
+    <button id="rand">Get Becon</button>
+    <p id="p1"></p>
+    <p id="p2"></p>
+    <p id="p3"></p>
+    
+    
+
+
+    <script>
+        
+        $("#rand").on('click', function() {
+
+            var url = "https://baconipsum.com/api/?type=meat-and-filler";
+
+            $.ajax({
+                method : "GET",
+                url : url,
+                dataType:'json'
+            })
+            .done(function(data) {
+                console.log(data);
+
+                $("#p1").text(data[0]);
+                $("#p2").text(data[1]);
+                $("#p3").text(data[2]);
+                
+            })
+            .fail(function(err) {
+                console.log(err);
+            });
+        });
+    
+    
+    
+    </script>
+</body>
+</html>

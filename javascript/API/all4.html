@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>4 different way of requesting</title>
+    <script
+    src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>        
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Roboto');
+
+                body {
+                font-family: 'Roboto';
+                color: #2c3e50;
+                text-align: center;
+                }
+
+                #quote {
+                font-size: 20px;
+                }
+
+                .container {
+                display: flex;
+                justify-content: space-around;
+                flex-wrap: wrap;
+                }
+
+
+                button {
+                margin-top: 20px;
+                background: red;
+                border: none;
+                outline: none;
+                height: 40px;
+                text-align: center;
+                width: 130px;
+                border-radius: 40px;
+                background: #fff;
+                border: 2px solid #1abc9c;
+                color: #1abc9c;
+                letter-spacing: 1px;
+                text-shadow: 0;
+                font-size: 12px;
+                font-weight: bold;
+                cursor: pointer;
+                -webkit-transition: all 0.25s ease;
+                transition: all 0.25s ease;
+                    font-family: 'Roboto', sans-serif;
+
+
+                }
+
+                button:hover {
+                color: white;
+                background: #1abc9c;
+                }
+    
+    </style>
+</head>
+<body>
+
+    <h1>Ron Swanson Quote Generator</h1>
+    <p>(4 ways of writing AJAX requests)</p>
+    <section class="container">
+        <button id="xhr">XHR</button>
+        <button id="fetch">Fetch</button>
+        <button id="jquery">jQuery</button>
+        <button id="axios">Axios</button>
+    </section>
+        
+        <p id="quote">Quote Goes Here...</p>
+        
+
+        
+        
+
+        <script>
+        var url = 'https://ron-swanson-quotes.herokuapp.com/v2/quotes';
+
+        $("#xhr").on("click", getDataXHR);
+        $("#fetch").on('click', getDataFetch);
+        $("#jquery").on('click', getDataQuery);
+        $("#axios").on('click', getDataAxios);
+        
+        function getDataXHR() {
+            var XHR = new XMLHttpRequest();
+
+            XHR.onreadystatechange = function() {
+                if(XHR.readyState == 4 && XHR.status == 200) {
+                    var quote = JSON.parse(XHR.responseText)[0];
+
+                    $("#quote").text("");
+                    $("#quote").text(quote);
+                }
+            };
+
+            XHR.open("GET", url);
+            XHR.send();
+        }
+
+        function getDataFetch() {
+            
+            fetch(url)
+            .then(function(data) {
+                if(!data.ok) {
+                    throw Error(data.status);
+                }
+                return data.json(); //returns promise
+            })
+            .then(function(data) {
+                $("#quote").text("");    
+                $("#quote").text(data[0]);
+            })
+            .catch(function(err) {
+                console.log(err);
+            });
+        }
+
+        function getDataQuery() {
+            $.getJSON(url)
+            .done(function(data) {
+                $("#quote").text("");    
+                $("#quote").text(data[0]);
+            })
+            .fail(function(err) {
+                console.log(err);
+            });
+        }
+
+        function getDataAxios(){
+            axios.get(url)
+            .then(function(data) {
+                $("#quote").text("");    
+                $("#quote").text(data.data[0]);
+            })
+            .catch(handleErrors)
+        }
+
+        function handleErrors(err) {
+            if (err.response) { // request went the server do not know how to handle request
+            console.log("Problem With Response ", err.response.status);
+            } else if (err.request) { // url internet
+            console.log("Problem With Request!");
+            } else {
+            console.log('Error', err.message);
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+        
+        </script>
+        
+</body>
+</html>

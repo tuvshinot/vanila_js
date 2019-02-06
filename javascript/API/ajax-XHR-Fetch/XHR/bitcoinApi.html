@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Bitcoin price</title>
+
+    <style>
+        div {
+            width: 600px;
+            margin: 50px auto;
+            text-align: center;
+            border: #20b2aa 1px solid;
+            border-radius: 5px;
+        }
+
+        span {
+            color: green;
+        }
+
+        button {
+            display: block;
+            margin: 10px auto;
+            border: 1px solid #20b2aa;
+            background: transparent;
+            border-radius: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        button:hover {
+            background: #20b2aa;
+            color: #ffffff;
+        }
+
+        h1 {
+            text-align: left;
+            padding: 5px;
+        }
+    
+    </style>
+
+</head>
+<body>
+    
+    <div>
+        <h1>Bitcoin Current Price is: <span id="price"></span></h1>
+        <button id="btn">Refresh Data</button>
+    </div>
+
+
+
+    <script>
+       
+        var btn = document.querySelector('#btn');
+        var disPrice = document.querySelector('#price');
+
+        btn.addEventListener('click', function() {
+            var XHR = new XMLHttpRequest();
+            var data;
+            var price;
+            var currency;
+
+            XHR.onreadystatechange = function() {
+                if(XHR.readyState == 4 && XHR.status == 200) {
+                    data = JSON.parse(XHR.responseText);
+                    price = data.bpi.USD.rate;  
+                    currency = data.bpi.USD.symbol;
+
+                    disPrice.innerHTML = currency + formatPrice(price);
+                    localStorage.setItem('cur', JSON.stringify(currency));
+                    localStorage.setItem('currentPrice', JSON.stringify(price));
+                }
+            };
+
+
+            XHR.open("GET", "https://api.coindesk.com/v1/bpi/currentprice.json");
+            XHR.send();
+        });
+
+        window.addEventListener('load', function() {
+             var currentCur= JSON.parse(localStorage.getItem('cur'));
+             var currentPriceBit = JSON.parse(localStorage.getItem('currentPrice'));
+             disPrice.innerHTML = currentCur + formatPrice(currentPriceBit);
+        });
+                
+
+        function formatPrice(num) {
+            var nums = num.toString().split('.');
+            var arr2 = nums[1].split('');
+            arr2.splice(0, 2);
+            var arrstr = arr2.join('');
+
+            return nums[0] + "." + arrstr;
+        }
+
+    </script>
+
+
+
+</body>
+</html>

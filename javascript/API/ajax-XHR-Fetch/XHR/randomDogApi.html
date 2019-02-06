@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Random Dog APi</title>
+
+    <style>
+        div {
+            width: 500px;
+            margin: 50px auto;
+            text-align: center;
+            border: #20b2aa 1px solid;
+            border-radius: 5px;
+        }
+
+        img {
+            width: 60%;
+            height: 200px;
+            margin: 10px 0;
+            border: 1px solid #20b2aa;
+            border-radius: 5px;
+        }
+
+        button {
+            display: block;
+            margin: 10px auto;
+            border: 1px solid #20b2aa;
+            background: transparent;
+            border-radius: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        button:hover {
+            background: #20b2aa;
+            color: #ffffff;
+        }
+    
+    </style>
+
+</head>
+<body>
+    
+    <div>
+        <h1>Welcome to random dog image</h1>
+        <img id="img" src="https://images.dog.ceo/breeds/schnauzer-giant/n02097130_4464.jpg" alt="">
+        <button id="btn">Random</button>
+    </div>
+
+
+
+    <script>
+        var btn = document.querySelector('#btn');
+        var img = document.querySelector('#img');
+
+        btn.addEventListener('click', function() {
+            var XHR = new XMLHttpRequest();
+
+            XHR.onreadystatechange = function() {
+                if(XHR.readyState == 4 && XHR.status == 200) {
+                    var url = JSON.parse(XHR.responseText).message;
+                    img.src = url;
+                }
+            };
+
+
+            XHR.open("GET", "https://dog.ceo/api/breeds/image/random");
+            XHR.send();
+        });
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+
+
+
+</body>
+</html>

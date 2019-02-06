@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ajax call</title>
+</head>
+<body>
+
+    <h1>AJAX call weather api</h1>
+    <script>
+
+
+
+
+
+
+
+
+
+ // until me is proxy for everyone allows us to access other websites api // promise way of fetch
+function getWeather(woeid) {
+    fetch(`https://crossorigin.me/https://www.metaweather.com/api/location/${woeid}/`)
+        // fetch returns promise
+        .then(result => {
+            //console.log(result);
+            return result.json(); //first convert js obj returns promise
+        })
+        .then(data => {
+            //console.log(data);  // then get it
+            const today = data.consolidated_weather[0];
+            console.log(`Temperature in ${data.title} stay between ${today.min_temp} and ${today.max_temp}`);
+        })
+        .catch(error => {
+            console.log(error)
+        });
+}
+
+getWeather(834463); // minsk
+
+
+
+
+////////////////
+////////////////////////////////////async function way
+async function getWeatherAW(woeid) {
+    try {
+        const result = await fetch(`https://crossorigin.me/https://www.metaweather.com/api/location/${woeid}/`);
+        //console.log(result);
+        var data = await result.json(); // returns promise
+        //console.log(data);
+        const today = data.consolidated_weather[0];
+        console.log(`Temperature in ${data.title} stay between ${today.min_temp} and ${today.max_temp}`);
+        return data; // returns promise so below used then
+    }
+    catch(err) {
+        alert(err);
+    }
+}
+
+getWeatherAW(834463).then(data => {
+    const dataMinsk = data;
+    console.log(dataMinsk);
+}); // minsk // returns promise
+    
+    
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jasmine/2.6.2/jasmine.css">
+</head>
+<body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jasmine/2.6.2/jasmine.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jasmine/2.6.2/jasmine-html.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jasmine/2.6.2/boot.js"></script>
+  <script>
+
+
+     describe("Arrays", function() {
+        var count = 0;
+
+        beforeEach(function() {  // increments first 1 and pass all testing and runs afterEach to initilize to 0
+          count++;
+        });
+
+        afterEach(function() {  // initilize arr there
+          count = 0;  // we use this to test database cuz start end what data stays can check
+        });
+
+        it("has a counter that increments", function() {
+          expect(count).toBe(1);
+        });
+
+         it("gets reset", function() {
+          expect(count).toBe(1);
+        });
+    });
+
+
+  </script>
+</body>
+</html>
