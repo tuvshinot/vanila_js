@@ -53,7 +53,7 @@ Array.prototype.filter1 = function(arr, func) {
 
     for (let index = 0; index < arr.length; index++) {
         if(func(arr[index], index, arr)) {
-            newArr.push(func(arr[index], index, arr));
+            newArr.push(arr[index]);
         } 
     }
     return newArr;
